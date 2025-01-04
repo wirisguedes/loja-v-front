@@ -60,5 +60,11 @@ export class LoginService {
     })
   }
 
+  deslogar(): void {
+    localStorage.setItem("Authorization",'');
+    localStorage.setItem("username",'');
+
+    this.router.navigate(['login']);
+  }
 
 }
