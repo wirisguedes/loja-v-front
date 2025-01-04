@@ -48,6 +48,8 @@ export class LoginService {
         var respjson = JSON.stringify(res);
         var jwt = JSON.parse(respjson);
         localStorage.setItem("Authorization",jwt.Authorization);
+        localStorage.setItem("username",jwt.username);
+
         this.router.navigate(['home']);
       },
 

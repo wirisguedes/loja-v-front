@@ -15,7 +15,7 @@ export const appRoutes : Routes = [
 
   {path: 'login', component: LoginComponent},
   {path: '', component: AppComponent},
-  {path: 'home', component: HomeComponent, canActivate:[guardiaoGuard]}
+  {path: 'home', component: HomeComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}}
 ];
 
 export const routes = RouterModule.forRoot(appRoutes);
