@@ -1,53 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Usuario } from './model/usuario';
 import { LoginService } from './services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  titulologin = 'Login da Loja';
+export class AppComponent implements OnInit{
 
-  constructor(private fb: FormBuilder, private loginService: LoginService){
+
+  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router){
 
   }
 
-  /*obter dados do formulário*/
-  loginForm = this.fb.group({
-    id:[],
-    login: [null, Validators.required],
-    senha:[null, Validators.required]
-  });
-
-  /*Transforma em objeto */
-  loginObjeto(): Usuario{
-    return {
-      login: this.loginForm.get('login')?.value!,
-      senha: this.loginForm.get('senha')?.value!
-    }
-  }
-
-  realizarLogin(){
-    const usuario = this.loginObjeto();
-
-    this.loginService.logar(usuario);
-
-    console.info('dados de login ' + usuario.login)
-    console.info('dados de login ' + usuario.senha)
-  }
-
-  recuperarSenha(){
-    const usuario = this.loginObjeto();
-
-    var login = usuario.login;
-
-    if(login == ''){
-      alert('Informe o login para recuperar senha!')
+  ngOnInit(): void {
+    
+    if(this.loginService.usuarioLogado()){
+      this.router.navigate(['home']);
+      
     }else{
-      this.loginService.recuperarSenha(login);
+      this.router.navigate(['login']);
+     
     }
   }
+  
 }

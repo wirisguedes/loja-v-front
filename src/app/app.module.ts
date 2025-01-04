@@ -4,19 +4,36 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { InterceptorLojaInterceptor } from './interceptor/interceptor-loja.interceptor';
+import { HomeComponent } from './home/home/home.component';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './login/login/login.component';
+import { guardiaoGuard } from './guard/guardiao.guard';
+
+export const appRoutes : Routes = [
+
+  {path: 'login', component: LoginComponent},
+  {path: '', component: AppComponent},
+  {path: 'home', component: HomeComponent, canActivate:[guardiaoGuard]}
+];
+
+export const routes = RouterModule.forRoot(appRoutes);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    routes
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorLojaInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
