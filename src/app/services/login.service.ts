@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../model/usuario';
 import { Router } from '@angular/router';
+import { PessoaJuridica } from '../model/pessoa-juridica';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginService {
 
-  private urlApi = environment.urlApiLocal;
+  private urlApi = environment.urlApi;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -41,6 +42,14 @@ export class LoginService {
     });
   }
 
+  codEmpresa(){
+    return localStorage.getItem("empresa");
+  }
+
+  objetoEmpresa(): PessoaJuridica{
+   return new PessoaJuridica(Number(this.codEmpresa()));
+  }
+
   logar(usuario: Usuario){
     return this.http.post<String>(this.urlApi + 'login', usuario).subscribe({
 
@@ -49,6 +58,7 @@ export class LoginService {
         var jwt = JSON.parse(respjson);
         localStorage.setItem("Authorization",jwt.Authorization);
         localStorage.setItem("username",jwt.username);
+        localStorage.setItem("empresa", jwt.empresa);
 
         this.router.navigate(['home']);
       },

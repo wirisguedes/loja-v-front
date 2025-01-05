@@ -16,12 +16,12 @@ export class InterceptorLojaInterceptor implements HttpInterceptor {
 
    var autorization = ''+ localStorage.getItem('Authorization');
 
-   if(autorization !== ''){
+   if (autorization !== '' && autorization !== null && autorization !== 'null'){
 
-    console.info('Token JWT: ' + autorization);
+    console.info('Token JWT Recuperado : ' + autorization);
 
-    const autRequ = request.clone({
-      headers: request.headers.set('Authorazition', autorization)
+       const autRequ = request.clone({
+          headers: request.headers.set('Authorization', autorization)
     });
 
     return next.handle(autRequ);

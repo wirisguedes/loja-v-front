@@ -10,7 +10,7 @@ export const guardiaoGuard: CanActivateFn = (route, state) => {
   var role = JSON.parse(JSON.stringify(roles)).role.toString();
   var autorization = '' + localStorage.getItem('Authorization');
   var request = new XMLHttpRequest();
-  request.open("GET", environment.urlApiLocal + 'possuiAcesso/' + username + '/' + role, false);
+  request.open("GET", environment.urlApi + 'possuiAcesso/' + username + '/' + role, false);
   request.setRequestHeader('Authorization', autorization);
   request.send();
 
