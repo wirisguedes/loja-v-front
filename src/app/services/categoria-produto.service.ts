@@ -13,6 +13,26 @@ export class CategoriaProdutoService {
   private urlApi = environment.urlApi;
   constructor(private http: HttpClient, private router: Router, private loginService: LoginService) { }
 
+  deletar(cat : CategoriaProduto): void{
+    this.http.post<String>(this.urlApi + 'deleteCategoria', cat).subscribe({
+
+      next: (res) => {
+        var varResposta = JSON.stringify(res);
+        var jsonResposta = JSON.parse(varResposta);
+
+        if(jsonResposta.error != undefined){
+          alert(jsonResposta.error); 
+        }else{
+          alert(res);
+        }
+      },
+      error: (error) => {        
+        alert(error.error.error);
+      }
+
+    });
+  }
+
   salvarCategoriaProduto(categoriaProduto: CategoriaProduto){
 
     return this.http.post<String>(this.urlApi + 'salvarCategoria', categoriaProduto).subscribe({
@@ -36,12 +56,24 @@ export class CategoriaProdutoService {
     
     }
 
-    listarCategoriaProduto(){
-      return this.http.get<CategoriaProduto[]>(this.urlApi + 'listarCategoriaProduto/' + this.loginService.codEmpresa());
+    listarCategoriaProduto(pagina: Number){
+      return this.http.get<CategoriaProduto[]>(this.urlApi + 'listaPorPageCategoriaProduto/' + this.loginService.codEmpresa() + '/' + pagina);
           
     }
 
     buscarPorId(id: any){
       return this.http.get<CategoriaProduto>(this.urlApi + 'buscarPorId/' + id);
     }
+
+    buscarPorDesc(val:String){
+    
+      return this.http.get<CategoriaProduto[]>(this.urlApi + 'buscarPorDescCatgoria/' + val + '/' + this.loginService.codEmpresa());
+
+    }
+
+    qtdPagina(){
+      return this.http.get<BigInteger>(this.urlApi + 'qtdPaginaCategoriaProduto/' + this.loginService.codEmpresa());
+    }
+
+   
 }

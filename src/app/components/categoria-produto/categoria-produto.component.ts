@@ -14,6 +14,10 @@ export class CategoriaProdutoComponent implements OnInit {
   lista = new Array<CategoriaProduto>();
   catProdForm: FormGroup;
   catProduto: CategoriaProduto;
+  varPesquisa: String = '';
+  qtdPagina: Number = 0;
+  arrayNumber: Number[] = [];
+  paginaAtual: Number = 1;
 
   constructor(private fb: FormBuilder, private categoriaProdutoService: CategoriaProdutoService, private loginService: LoginService){
     this.catProduto = new CategoriaProduto();
@@ -29,7 +33,19 @@ export class CategoriaProdutoComponent implements OnInit {
 
       /*Executa no momento que a tela abre*/
       ngOnInit(): void {
-        this.listaCategoria();      
+        this.categoriaProdutoService.qtdPagina().subscribe({
+          next: (res) => {
+
+            this.qtdPagina = Number(res);
+            
+            this.arrayNumber = Array(this.qtdPagina).fill(0).map((x,i) => i);
+          },
+          error: (error) => {
+
+          }
+        });
+        
+        this.listaCategoria(1);      
         
       }
 
@@ -41,8 +57,8 @@ export class CategoriaProdutoComponent implements OnInit {
         });
       }
 
-      listaCategoria(){
-        this.categoriaProdutoService.listarCategoriaProduto().subscribe({
+      listaCategoria(pagina: Number){
+        this.categoriaProdutoService.listarCategoriaProduto(pagina).subscribe({
 
           next: (res) =>{
             this.lista = res;
@@ -71,7 +87,7 @@ export class CategoriaProdutoComponent implements OnInit {
           this.categoriaProdutoService.salvarCategoriaProduto(categoria)   
 
           this.novo();
-          this.listaCategoria();
+          this.listaCategoria(this.paginaAtual);
                    
         }
 
@@ -92,6 +108,59 @@ export class CategoriaProdutoComponent implements OnInit {
 
           });          
          
+        }
+
+        deletar(c: CategoriaProduto): void {
+          var confim = confirm('Deseja mesmo deletar');
+
+          if (confim){           
+            this.categoriaProdutoService.deletar(c);            
+            this.listaCategoria(this.paginaAtual);
+          }
+        }
+
+        setPesquisa(val:String): void {
+          this.varPesquisa = val;
+        }
+        
+        pesquisar(): void{
+
+          if(this.varPesquisa.length <=0){
+            this.listaCategoria(this.paginaAtual);
+            return;
+          }
+
+          this.categoriaProdutoService.buscarPorDesc(this.varPesquisa).subscribe({
+
+            next: (res) => {
+              this.lista = res;
+            },
+            error: (error) => {
+              alert(error);
+            }
+
+          });
+        }
+
+
+        buscarPagina(p: Number): void{
+          this.paginaAtual = p;
+          this.listaCategoria(this.paginaAtual);
+        }
+
+        voltar(){
+          if(this.paginaAtual.valueOf() > 0){
+            this.paginaAtual = this.paginaAtual.valueOf() - 1;
+          }
+
+          this.listaCategoria(this.paginaAtual);
+        }
+    
+        avancar(){
+          if(this.paginaAtual.valueOf() < this.qtdPagina.valueOf()){
+            this.paginaAtual = this.paginaAtual.valueOf() + 1;
+          }
+          this.listaCategoria(this.paginaAtual);
         }
        
 }
