@@ -1,5 +1,5 @@
-<p>Cadastro de categoria de produtos</p>
-<form class="row g-3" [formGroup]="catProdForm">
+<p>Cadastro de produtos</p>
+<form class="row g-3" [formGroup]="marcaProdForm">
       
   <input type="hidden" id="empresa" name="empresa" formControlName="empresa">
     <div class="col-2">
@@ -7,13 +7,13 @@
       <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id">
     </div>
     <div class="col-10">
-      <label for="inputAddress2" class="form-label">Categoria</label>
-      <input type="text" maxlength="100" class="form-control" id="nomeDesc" name="nomeDesc" required placeholder="Categoria" formControlName="nomeDesc">
-      <div *ngIf="catProdForm.get('nomeDesc')?.errors" style="font-size: 8px;color: brown;">* Categoria</div>
+      <label for="inputAddress2" class="form-label">Marca</label>
+      <input type="text" maxlength="100" class="form-control" id="nomeDesc" name="nomeDesc" required placeholder="Marca" formControlName="nomeDesc">
+      <div *ngIf="marcaProdForm.get('nomeDesc')?.errors" style="font-size: 8px;color: brown;">* Marca</div>
     </div>
    
     <div class="col-12">
-      <button type="submit" class="btn btn-primary" (click)="cadProdCategoria()" [disabled]="!catProdForm.valid">Salvar</button>
+      <button type="submit" class="btn btn-primary" (click)="salvaProdMarca()" [disabled]="!marcaProdForm.valid">Salvar</button>
     </div>
   </form>
 
@@ -41,8 +41,8 @@
       <tr *ngFor="let c of lista">
         <td>{{c.id}}</td>
         <td>{{c.nomeDesc}}</td>
-        <td><button type="button" class="btn btn-primary"(click)="editarCategoriaProduto(c)">Editar</button></td>
-        <td><button type="button" class="btn btn-danger"(click)="deletar(c)">Deletar</button></td>
+        <td><button type="button" class="btn btn-primary"(click)="editarMarcaProduto(c)">Editar</button></td>
+        <td><button type="button" class="btn btn-danger"(click)="deletarMarca(c)">Deletar</button></td>
       </tr>
     </tbody>
   </table>
