@@ -13,6 +13,7 @@ import { guardiaoGuard } from './guard/guardiao.guard';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CategoriaProdutoComponent } from './components/categoria-produto/categoria-produto.component';
 import { MarcaProdutoComponent } from './components/marca-produto/marca-produto.component';
+import { AcessoComponent } from './components/acesso/acesso.component';
 
 export const appRoutes : Routes = [
 
@@ -20,7 +21,8 @@ export const appRoutes : Routes = [
   {path: '', component: AppComponent},
   {path: 'home', component: HomeComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
   {path: 'categoria-produto', component: CategoriaProdutoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
-  {path: 'marca-produto', component: MarcaProdutoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}}
+  {path: 'marca-produto', component: MarcaProdutoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
+  {path: 'acesso', component: AcessoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN']}}
 ];
 
 export const routes = RouterModule.forRoot(appRoutes);
@@ -32,7 +34,8 @@ export const routes = RouterModule.forRoot(appRoutes);
     LoginComponent,
     NavbarComponent,
     CategoriaProdutoComponent,
-    MarcaProdutoComponent
+    MarcaProdutoComponent,
+    AcessoComponent
   ],
   imports: [
     BrowserModule,
