@@ -1,8 +1,11 @@
-export class PessoaJuridica {
+import { Pessoa } from "./pessoa";
 
-    constructor(private cod: Number){
-        this.id = cod;
-    }
-
-    id?: Number;
+export class PessoaJuridica extends Pessoa{
+    
+    cnpj?: String;
+    inscEstadual?: String;
+    inscMunicipal?: String;
+    nomeFantasia?: String;
+    razaoSocial?: String;
+    categoria?: String;
 }

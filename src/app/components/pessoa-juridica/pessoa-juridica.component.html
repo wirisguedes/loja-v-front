@@ -1,0 +1,92 @@
+<p>Cadastro Pessoa Jurídica</p>
+<form class="row g-3" [formGroup]="pjForm">
+      
+  <input type="hidden" id="empresa" name="empresa" formControlName="empresa">
+    <div class="col-2">
+      <label for="id" class="form-label">ID</label>
+      <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id">
+    </div>
+    <div class="col-5">
+      <label for="inputAddress2" class="form-label">Nome Fantasia</label>
+      <input type="text" maxlength="100" class="form-control" id="nomeFantasia" name="nomeFantasia" required placeholder="Nome fantasia" formControlName="nomeFantasia">
+      <div *ngIf="pjForm.get('nomeFantasia')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-5">
+        <label for="inputAddress2" class="form-label">Cnpj</label>
+        <input type="text" maxlength="100" class="form-control" id="cnpj" name="cnpj" required placeholder="Cnpj" formControlName="cnpj">
+        <div *ngIf="pjForm.get('cnpj')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+        <label for="inputAddress2" class="form-label">Inscrição Estadual</label>
+        <input type="text" maxlength="100" class="form-control" id="inscEstadual" name="inscEstadual" required placeholder="Inscrição Estadual" formControlName="inscEstadual">
+        <div *ngIf="pjForm.get('inscEstadual')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+        <label for="inputAddress2" class="form-label">Razão Social</label>
+        <input type="text" maxlength="100" class="form-control" id="razaoSocial" name="razaoSocial" required placeholder="Razão Social" formControlName="razaoSocial">
+        <div *ngIf="pjForm.get('razaoSocial')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+        <label for="inputAddress2" class="form-label">Inscrição Municipal</label>
+        <input type="text" maxlength="100" class="form-control" id="inscMunicipal" name="inscMunicipal" required placeholder="Inscrição Municipal" formControlName="inscMunicipal">
+        <div *ngIf="pjForm.get('inscMunicipal')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+        <label for="inputAddress2" class="form-label">Categoria</label>
+        <input type="text" maxlength="100" class="form-control" id="categoria" name="categoria" required placeholder="Categoria" formControlName="categoria">
+        <div *ngIf="pjForm.get('categoria')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+   
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary" (click)="salvarPj()" [disabled]="pjForm.valid">Salvar</button>
+    </div>
+  </form>
+
+  <form class="row g-3">
+    <label for="pesquisa" class="form-label">Pesquisar</label>
+    <div class="col-10">      
+      <input type="text" #pesquisa (blur)="setPesquisa(pesquisa.value)" class="form-control" id="pesquisa" name="pesquisa" placeholder="Pesquisar" >
+    </div>
+    <div class="col-2">
+      <button type="button" style="width: 50%;" (click)="pesquisar()" class="btn btn-success">Pesquisar</button>
+    </div>
+
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>        
+        <th scope="col">ID</th>               
+        <th scope="col">Nome</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of lista">
+        <td>{{c.id}}</td>
+        <td>{{c.nomeFantasia}}</td>
+        <td><button type="button" class="btn btn-primary"(click)="editarPj(c)">Editar</button></td>
+        <td><button type="button" class="btn btn-danger"(click)="deletarPj(c)">Deletar</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" (click)="voltar()">Voltar</a>
+      </li>
+      <li class="page-item" *ngFor="let p of this.arrayNumber; let i = index">
+        <a class="page-link" (click)="buscarPagina(i)">{{i + 1}}</a>
+      </li>      
+      <li class="page-item">
+        <a class="page-link" (click)="avancar()">Avançar</a>
+      </li>
+    </ul>
+  </nav>
