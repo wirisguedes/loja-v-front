@@ -1,49 +1,93 @@
-<p>Cadastro Pessoa Jurídica</p>
+<p>Cadastro Pessoa Juridica</p>
 <form class="row g-3" [formGroup]="pjForm">
       
   <input type="hidden" id="empresa" name="empresa" formControlName="empresa">
     <div class="col-2">
       <label for="id" class="form-label">ID</label>
-      <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id">
+      <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id" (ngModel)="pjForm.get('id')">
     </div>
     <div class="col-5">
-      <label for="inputAddress2" class="form-label">Nome Fantasia</label>
-      <input type="text" maxlength="100" class="form-control" id="nomeFantasia" name="nomeFantasia" required placeholder="Nome fantasia" formControlName="nomeFantasia">
-      <div *ngIf="pjForm.get('nomeFantasia')?.errors" style="font-size: 8px;color: brown;">*</div>
-    </div>
-
-    <div class="col-5">
-        <label for="inputAddress2" class="form-label">Cnpj</label>
-        <input type="text" maxlength="100" class="form-control" id="cnpj" name="cnpj" required placeholder="Cnpj" formControlName="cnpj">
-        <div *ngIf="pjForm.get('cnpj')?.errors" style="font-size: 8px;color: brown;">*</div>
-    </div>
-
-    <div class="col-6">
-        <label for="inputAddress2" class="form-label">Inscrição Estadual</label>
-        <input type="text" maxlength="100" class="form-control" id="inscEstadual" name="inscEstadual" required placeholder="Inscrição Estadual" formControlName="inscEstadual">
-        <div *ngIf="pjForm.get('inscEstadual')?.errors" style="font-size: 8px;color: brown;">*</div>
-    </div>
-
-    <div class="col-6">
-        <label for="inputAddress2" class="form-label">Razão Social</label>
-        <input type="text" maxlength="100" class="form-control" id="razaoSocial" name="razaoSocial" required placeholder="Razão Social" formControlName="razaoSocial">
-        <div *ngIf="pjForm.get('razaoSocial')?.errors" style="font-size: 8px;color: brown;">*</div>
-    </div>
-
-    <div class="col-6">
-        <label for="inputAddress2" class="form-label">Inscrição Municipal</label>
-        <input type="text" maxlength="100" class="form-control" id="inscMunicipal" name="inscMunicipal" required placeholder="Inscrição Municipal" formControlName="inscMunicipal">
-        <div *ngIf="pjForm.get('inscMunicipal')?.errors" style="font-size: 8px;color: brown;">*</div>
-    </div>
-
-    <div class="col-6">
-        <label for="inputAddress2" class="form-label">Categoria</label>
-        <input type="text" maxlength="100" class="form-control" id="categoria" name="categoria" required placeholder="Categoria" formControlName="categoria">
-        <div *ngIf="pjForm.get('categoria')?.errors" style="font-size: 8px;color: brown;">*</div>
+      <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+      <input type="text" maxlength="100" class="form-control" id="nomeFantasia" name="nomeFantasia"  formControlName="nomeFantasia">
+      <div *ngIf="pjForm.get('nomeFantasia')?.errors" style="font-size: 8px;color: brown;">* Acesso</div>
     </div>
    
+    <div class="col-5">
+      <label for="cnpj" class="form-label">Cnpj</label>
+      <input type="text" maxlength="100" class="form-control" id="cnpj" name="cnpj"  formControlName="cnpj" mask="00.000.000/0000-00">
+      <div *ngIf="pjForm.get('cnpj')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+      <label for="inscEstadual" class="form-label">Inscrição Estadual</label>
+      <input type="text" maxlength="100" class="form-control" id="inscEstadual" name="inscEstadual"  formControlName="inscEstadual" mask="00000000-00">
+      <div *ngIf="pjForm.get('inscEstadual')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-6">
+      <label for="inscMunicipal" class="form-label">Inscrição Municipal</label>
+      <input type="text" maxlength="100" class="form-control" id="inscMunicipal" name="inscMunicipal" formControlName="inscMunicipal">
+      <div *ngIf="pjForm.get('inscMunicipal')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="razaoSocial" class="form-label">Razão Social</label>
+      <input type="text" maxlength="100" class="form-control" id="razaoSocial" name="razaoSocial" formControlName="razaoSocial">
+      <div *ngIf="pjForm.get('razaoSocial')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="categoria" class="form-label">Categoria</label>
+      <!----
+      <input type="text" maxlength="100" class="form-control" id="categoria" name="categoria" formControlName="categoria">
+    -->
+
+    <select class="form-select" formControlName="categoria" required>
+      <option value="">--Selecione--</option>
+      <option value="MEI">Mei</option>
+      <option value="ME">Micro Empresa</option>
+      <option value="LTDA">Sociedade Limitada</option>
+
+    </select>
+      <div *ngIf="pjForm.get('categoria')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="tipoPessoa" class="form-label">Tipo Pessoa</label>
+      <!--
+      <input type="text" maxlength="100" class="form-control" id="tipoPessoa" name="tipoPessoa" formControlName="tipoPessoa">
+      -->
+      <select class="form-select" formControlName="tipoPessoa" required>
+        <option value="">--Selecione--</option>
+        <option value="JURIDICA">Jurídica</option>
+        <option value="FORNECEDOR">Fornecedor</option>
+          
+      </select>
+
+      <div *ngIf="pjForm.get('tipoPessoa')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="nome" class="form-label">Nome Responsável</label>
+      <input type="text" maxlength="100" class="form-control" id="nome" name="nome" formControlName="nome">
+      <div *ngIf="pjForm.get('nome')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="text" maxlength="100" class="form-control" id="email" name="email" required ngModel email  formControlName="email">
+      <div *ngIf="pjForm.get('email')?.errors" style="font-size: 8px;color: brown;">* e-mail</div>
+    </div>
+
+    <div class="col-4">
+      <label for="telefone" class="form-label">Telefone</label>
+      <input type="text" maxlength="100" class="form-control" id="telefone" name="telefone" formControlName="telefone" mask="(00) 0 0000-0000">
+      <div *ngIf="pjForm.get('telefone')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+    
+
     <div class="col-12">
-      <button type="submit" class="btn btn-primary" (click)="salvarPj()" [disabled]="pjForm.valid">Salvar</button>
+      <button type="submit" class="btn btn-primary" (click)="salvarPj()" [disabled]="!pjForm.valid">Salvar</button>
     </div>
   </form>
 

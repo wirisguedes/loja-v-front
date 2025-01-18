@@ -32,12 +32,12 @@ export class PessoaJuridicaComponent implements OnInit {
       inscMunicipal: [null, Validators.required],
       nomeFantasia: [null, Validators.required],
       razaoSocial: [null, Validators.required],
-      categoria: [null, Validators.required],
+      categoria: ['', Validators.required],
       nome: [null, !Validators.required],
       email: [null, !Validators.required],
       telefone: [null, !Validators.required],
-      tipoPessoa: [null, !Validators.required],
-      empresa: [null, Validators.required],
+      tipoPessoa: ['', !Validators.required],
+      empresa: [this.loginService.objetoEmpresa(), Validators.required]
     });
   }
 
@@ -89,12 +89,12 @@ export class PessoaJuridicaComponent implements OnInit {
       inscMunicipal: [null, Validators.required],
       nomeFantasia: [null, Validators.required],
       razaoSocial: [null, Validators.required],
-      categoria: [null, Validators.required],
-      nome: [null, Validators.required],
-      email: [null, Validators.required],
-      telefone: [null, Validators.required],
-      tipoPessoa: [null, Validators.required],
-      empresa: [this.loginService.objetoEmpresa(), Validators.required],
+      categoria: ['', Validators.required],
+      nome: [null, !Validators.required],
+      email: [null, !Validators.required],
+      telefone: [null, !Validators.required],
+      tipoPessoa: ['', !Validators.required],
+      empresa: [this.loginService.objetoEmpresa(), Validators.required]
     });
   }
 
@@ -108,10 +108,11 @@ export class PessoaJuridicaComponent implements OnInit {
       razaoSocial: this.pjForm.get('razaoSocial')?.value!,
       categoria: this.pjForm.get('categoria')?.value!,
       nome: this.pjForm.get('nome')?.value!,
+      email: this.pjForm.get('email')?.value!,
       telefone: this.pjForm.get('telefone')?.value!,
       tipoPessoa: this.pjForm.get('tipoPessoa')?.value!,
-      empresa: this.pjForm.get('empresa')?.value!,
-    };
+      empresa: this.pjForm.get('empresa')?.value!
+    }
   }
 
   salvarPj() {

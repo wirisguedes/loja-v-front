@@ -33,9 +33,9 @@ export class CategoriaProdutoService {
     });
   }
 
-  salvarCategoriaProduto(categoriaProduto: CategoriaProduto){
+  salvarCategoriaProduto(c: CategoriaProduto){
 
-    return this.http.post<String>(this.urlApi + 'salvarCategoria', categoriaProduto).subscribe({
+    return this.http.post<String>(this.urlApi + 'salvarCategoria', c).subscribe({
        next: (res) => {    
           var varResposta = JSON.stringify(res);
           var jsonResposta = JSON.parse(varResposta);    
