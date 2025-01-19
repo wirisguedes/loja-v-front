@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Endereco } from 'src/app/model/endereco';
 import { PessoaFisica } from 'src/app/model/pessoa-fisica';
+import { EnderecoService } from 'src/app/services/endereco.service';
 
 import { LoginService } from 'src/app/services/login.service';
 import { PessoaFisicaService } from 'src/app/services/pessoa-Fisica.service';
@@ -13,7 +15,9 @@ import { PessoaFisicaService } from 'src/app/services/pessoa-Fisica.service';
 })
 export class PessoaFisicaComponent implements OnInit {
   lista = new Array<PessoaFisica>();
+  enderecos = new Array<Endereco>();
   pfForm: FormGroup;
+  endForm: FormGroup;
   pf: PessoaFisica;
   varPesquisa: String = '';
   qtdPagina: Number = 0;
@@ -23,7 +27,8 @@ export class PessoaFisicaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private pessoaFisicaService: PessoaFisicaService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private enderecoServie: EnderecoService
   ) {
     this.pf = new PessoaFisica();
 
@@ -35,7 +40,22 @@ export class PessoaFisicaComponent implements OnInit {
       email: [null, !Validators.required],
       telefone: [null, !Validators.required],
       tipoPessoa: ['', !Validators.required],
+      enderecos: [this.enderecos, !Validators.required],
       empresa: [this.loginService.objetoEmpresa(), Validators.required]
+    });
+
+    this.endForm = this.fb.group({
+      id:['', !Validators.required],
+      ruaLogra: [null, Validators.required],
+      cep: [null, Validators.required],
+      numero: [null, Validators.required],
+      complemento: [null, Validators.required],
+      bairro: [null, Validators.required],
+      uf: [null, Validators.required],
+      cidade: [null, Validators.required],
+      estado: [null, Validators.required],
+      tipoEndereco: ['', Validators.required]
+
     });
   }
 
@@ -80,6 +100,7 @@ export class PessoaFisicaComponent implements OnInit {
   }
 
   novo(): void {
+    this.enderecos = new Array<Endereco>();
     this.pfForm = this.fb.group({
       id: [],
       cpf: [null, !Validators.required],
@@ -88,8 +109,39 @@ export class PessoaFisicaComponent implements OnInit {
       email: [null, !Validators.required],
       telefone: [null, !Validators.required],
       tipoPessoa: ['', !Validators.required],
+      enderecos: [this.enderecos, !Validators.required],
       empresa: [this.loginService.objetoEmpresa(), Validators.required]
     });
+
+    this.endForm = this.fb.group({
+      id:['', !Validators.required],
+      ruaLogra: [null, Validators.required],
+      cep: [null, Validators.required],
+      numero: [null, Validators.required],
+      complemento: [null, Validators.required],
+      bairro: [null, Validators.required],
+      uf: [null, Validators.required],
+      cidade: [null, Validators.required],
+      estado: [null, Validators.required],
+      tipoEndereco: ['', Validators.required]
+
+    });
+  }
+
+  enderecoObjeto(): Endereco {
+    return{
+      id: this.endForm.get("id")?.value,
+      ruaLogra: this.endForm.get("ruaLogra")?.value,
+      cep: this.endForm.get("cep")?.value,
+      numero: this.endForm.get("numero")?.value,
+      complemento: this.endForm.get("complemento")?.value,
+      bairro: this.endForm.get("bairro")?.value,
+      uf: this.endForm.get("uf")?.value,
+      cidade: this.endForm.get("cidade")?.value,
+      estado: this.endForm.get("estado")?.value,
+      tipoEndereco: this.endForm.get("tipoEndereco")?.value      
+
+    }
   }
 
   pfObjeto(): PessoaFisica {
@@ -101,8 +153,44 @@ export class PessoaFisicaComponent implements OnInit {
       email: this.pfForm.get('email')?.value!,
       telefone: this.pfForm.get('telefone')?.value!,
       tipoPessoa: this.pfForm.get('tipoPessoa')?.value!,
+      enderecos: this.enderecos,
       empresa: this.pfForm.get('empresa')?.value!
     }
+  }
+
+  addEndereco(){
+    const end = this.enderecoObjeto();
+
+    var index = this.enderecos.map(e => e.cep).indexOf(end.cep);
+
+    if(index < 0){
+      this.enderecos.push(end);
+    }else{
+      this.enderecos.splice(index,1);
+      this.enderecos.push(end);
+    }
+  }
+
+  excluirEndereco(e: Endereco): void{
+    var index = this.enderecos.map(e => e.cep).indexOf(e.cep);
+    this.enderecoServie.excluirEndereco(e);
+    this.enderecos.splice(index,1);
+  }
+
+  exibirEndereco(e: Endereco): void{
+
+    this.endForm = this.fb.group({
+      id:[e.id, !Validators.required],
+      ruaLogra: [e.ruaLogra, Validators.required],
+      cep: [e.cep, Validators.required],
+      numero: [e.numero, Validators.required],
+      complemento: [e.complemento, Validators.required],
+      bairro: [e.bairro, Validators.required],
+      uf: [e.uf, Validators.required],
+      cidade: [e.cidade, Validators.required],
+      estado: [e.estado, Validators.required],
+      tipoEndereco: [e.tipoEndereco, Validators.required]
+    });
   }
 
   salvarPf() {
@@ -117,6 +205,7 @@ export class PessoaFisicaComponent implements OnInit {
     this.pessoaFisicaService.buscarPfId(p.id).subscribe({
       next: (data) => {
         this.pf = data;
+        this.enderecos = this.pf.enderecos !== undefined ? this.pf.enderecos : new Array<Endereco>();
         this.pfForm = this.fb.group({
           id: [this.pf.id],         
           cpf: [this.pf.cpf, !Validators.required],
@@ -125,6 +214,7 @@ export class PessoaFisicaComponent implements OnInit {
           email: [this.pf.email, !Validators.required],
           telefone: [this.pf.telefone, !Validators.required],
           tipoPessoa: [this.pf.tipoPessoa, !Validators.required],
+          enderecos: [this.enderecos, !Validators.required],
           empresa: [this.loginService.objetoEmpresa(), Validators.required]
         });
       },

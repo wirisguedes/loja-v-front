@@ -99,7 +99,7 @@ export class CategoriaProdutoComponent implements OnInit {
         /* Salvar categoria produtos */
         cadProdCategoria(){
           const categoria = this.catProdObjeto();     
-          this.categoriaProdutoService.salvarCategoriaProduto(categoria)   
+          this.categoriaProdutoService.salvarCategoriaProduto(categoria);   
 
           this.novo();
           this.listaCategoria(this.paginaAtual);

@@ -85,6 +85,86 @@
       <div *ngIf="pjForm.get('telefone')?.errors" style="font-size: 8px;color: brown;">*</div>
     </div>
     
+    <form class="row g-3" [formGroup]="endForm">
+      <div class="col-1">
+        <label for="id" class="form-label">ID</label>
+        <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id" (ngModel)="endForm.get('id')">
+     
+      </div>     
+      <div class="col-5">
+        <label for="ruaLogra" class="form-label">Rua</label>
+        <input type="text" maxlength="100" class="form-control" id="ruaLogra" name="ruaLogra"  formControlName="ruaLogra">
+        <div *ngIf="endForm.get('ruaLogra')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-3">
+        <label for="cep" class="form-label">Cep</label>
+        <input type="text" maxlength="100" class="form-control" id="cep" name="cep"  formControlName="cep" mask="00000-000">
+        <div *ngIf="endForm.get('cep')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-3">
+        <label for="numero" class="form-label">Número</label>
+        <input type="text" maxlength="100" class="form-control" id="numero" name="numero"  formControlName="numero">
+        <div *ngIf="endForm.get('numero')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-5">
+        <label for="complemento" class="form-label">Complemento</label>
+        <input type="text" maxlength="100" class="form-control" id="complemento" name="complemento"  formControlName="complemento">
+        <div *ngIf="endForm.get('complemento')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-4">
+        <label for="bairro" class="form-label">Bairro</label>
+        <input type="text" maxlength="100" class="form-control" id="bairro" name="bairro"  formControlName="bairro">
+        <div *ngIf="endForm.get('bairro')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-2">
+        <label for="uf" class="form-label">UF</label>
+        <input type="text" maxlength="100" class="form-control" id="uf" name="uf"  formControlName="uf">
+        <div *ngIf="endForm.get('uf')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-5">
+        <label for="cidade" class="form-label">Cidade</label>
+        <input type="text" maxlength="100" class="form-control" id="cidade" name="cidade"  formControlName="cidade">
+        <div *ngIf="endForm.get('cidade')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-3">
+        <label for="estado" class="form-label">Estado</label>
+        <input type="text" maxlength="100" class="form-control" id="estado" name="estado"  formControlName="estado">
+        <div *ngIf="endForm.get('estado')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-4">
+        <label for="tipoEndereco" class="form-label">Tipo de Endereço</label>       
+        <select class="form-select" formControlName="tipoEndereco" required>
+          <option value="">--Selecione--</option>
+          <option value="COBRANCA">Cobrança</option>
+          <option value="ENTREGA">Entrega</option>
+            
+        </select>
+  
+        <div *ngIf="endForm.get('tipoEndereco')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" (click)="addEndereco()" [disabled]="!endForm.valid">Adicionar Endereço</button>
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>        
+          <th scope="col">ID</th>               
+          <th scope="col">Endereco</th>
+          <th scope="col">Ver</th>
+          <th scope="col">Deletar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of enderecos">
+          <td>{{c.id}}</td>
+          <td>{{c.ruaLogra}}</td>
+          <td><button type="button" class="btn btn-primary"(click)="exibirEndereco(c)">Exibir</button></td>
+          <td><button type="button" class="btn btn-danger"(click)="excluirEndereco(c)">Deletar</button></td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="col-12">
       <button type="submit" class="btn btn-primary" (click)="salvarPj()" [disabled]="!pjForm.valid">Salvar</button>
