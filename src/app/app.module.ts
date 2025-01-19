@@ -16,6 +16,7 @@ import { MarcaProdutoComponent } from './components/marca-produto/marca-produto.
 import { AcessoComponent } from './components/acesso/acesso.component';
 import { PessoaJuridicaComponent } from './components/pessoa-juridica/pessoa-juridica.component';
 import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask } from 'ngx-mask';
+import { PessoaFisicaComponent } from './components/pessoa-fisica/pessoa-fisica.component';
 
 export const appRoutes : Routes = [
 
@@ -25,7 +26,8 @@ export const appRoutes : Routes = [
   {path: 'categoria-produto', component: CategoriaProdutoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
   {path: 'marca-produto', component: MarcaProdutoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
   {path: 'acesso', component: AcessoComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
-  {path: 'pessoa-juridica', component: PessoaJuridicaComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}}
+  {path: 'pessoa-juridica', component: PessoaJuridicaComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}},
+  {path: 'pessoa-fisica', component: PessoaFisicaComponent, canActivate:[guardiaoGuard], data: {role:['ROLE_ADMIN', 'ROLE_USER']}}
 ];
 
 export const routes = RouterModule.forRoot(appRoutes);
@@ -39,7 +41,8 @@ export const routes = RouterModule.forRoot(appRoutes);
     CategoriaProdutoComponent,
     MarcaProdutoComponent,
     AcessoComponent,
-    PessoaJuridicaComponent
+    PessoaJuridicaComponent,
+    PessoaFisicaComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,101 @@
+<p>Cadastro Pessoa Fisíca</p>
+<form class="row g-3" [formGroup]="pfForm">
+      
+  <input type="hidden" id="empresa" name="empresa" formControlName="empresa">
+    <div class="col-2">
+      <label for="id" class="form-label">ID</label>
+      <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id" (ngModel)="pfForm.get('id')">
+    </div>    
+    
+    <div class="col-4">
+      <label for="nome" class="form-label">Nome</label>
+      <input type="text" maxlength="100" class="form-control" id="nome" name="nome" formControlName="nome">
+      <div *ngIf="pfForm.get('nome')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="nome" class="form-label">Cpf</label>
+      <input type="text" maxlength="100" class="form-control" id="cpf" name="cpf" formControlName="cpf" mask="000.000.000-00">
+      <div *ngIf="pfForm.get('cpf')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="nome" class="form-label">Data Nascimento</label>
+      <input type="text" maxlength="100" class="form-control" id="dataNascimento" name="dataNascimento" formControlName="dataNascimento" mask="00/00/0000" [dropSpecialCharacters]="false">
+      <div *ngIf="pfForm.get('dataNascimento')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+    <div class="col-4">
+      <label for="tipoPessoa" class="form-label">Tipo Pessoa</label>
+      <!--
+      <input type="text" maxlength="100" class="form-control" id="tipoPessoa" name="tipoPessoa" formControlName="tipoPessoa">
+      -->
+      <select class="form-select" formControlName="tipoPessoa" required>
+        <option value="">--Selecione--</option>
+        <option value="CLIENTE">Cliente</option>
+        <option value="FORNECEDOR">Fornecedor</option>
+          
+      </select>
+
+      <div *ngIf="pfForm.get('tipoPessoa')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div>
+
+    <div class="col-4">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="text" maxlength="100" class="form-control" id="email" name="email" required ngModel email  formControlName="email">
+      <div *ngIf="pfForm.get('email')?.errors" style="font-size: 8px;color: brown;">* e-mail</div>
+    </div>
+
+    <div class="col-4">
+      <label for="telefone" class="form-label">Telefone</label>
+      <input type="text" maxlength="100" class="form-control" id="telefone" name="telefone" formControlName="telefone" mask="(00) 0 0000-0000">
+      <div *ngIf="pfForm.get('telefone')?.errors" style="font-size: 8px;color: brown;">*</div>
+    </div> 
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary" (click)="salvarPf()" [disabled]="!pfForm.valid">Salvar</button>
+    </div>
+  </form>
+
+  <form class="row g-3">
+    <label for="pesquisa" class="form-label">Pesquisar</label>
+    <div class="col-10">      
+      <input type="text" #pesquisa (blur)="setPesquisa(pesquisa.value)" class="form-control" id="pesquisa" name="pesquisa" placeholder="Pesquisar" >
+    </div>
+    <div class="col-2">
+      <button type="button" style="width: 50%;" (click)="pesquisar()" class="btn btn-success">Pesquisar</button>
+    </div>
+
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>        
+        <th scope="col">ID</th>               
+        <th scope="col">Nome</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of lista">
+        <td>{{c.id}}</td>
+        <td>{{c.nome}}</td>
+        <td><button type="button" class="btn btn-primary"(click)="editarPf(c)">Editar</button></td>
+        <td><button type="button" class="btn btn-danger"(click)="deletarPf(c)">Deletar</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" (click)="voltar()">Voltar</a>
+      </li>
+      <li class="page-item" *ngFor="let p of this.arrayNumber; let i = index">
+        <a class="page-link" (click)="buscarPagina(i)">{{i + 1}}</a>
+      </li>      
+      <li class="page-item">
+        <a class="page-link" (click)="avancar()">Avançar</a>
+      </li>
+    </ul>
+  </nav>
