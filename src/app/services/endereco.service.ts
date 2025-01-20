@@ -14,23 +14,29 @@ export class EnderecoService {
     constructor(private http: HttpClient, private router: Router, private loginService: LoginService) { }
 
    excluirEndereco(e : Endereco): void{
+    
+    if (e.id != null) {
+
       this.http.post<String>(this.urlApi + 'deleteEndereco', e).subscribe({
-  
+    
         next: (res) => {
+    
           var varResposta = JSON.stringify(res);
           var jsonResposta = JSON.parse(varResposta);
-  
+    
           if(jsonResposta.error != undefined){
-            alert(jsonResposta.error); 
-          }else{
+            alert(jsonResposta.error);
+          }else{       
             alert(res);
           }
+    
         },
-        error: (error) => {        
-          alert(error.error.error);
+        error: (error) => {
+          alert('erro: ' + error);
+          console.info(error);
         }
-  
       });
+    }
     }
 
 

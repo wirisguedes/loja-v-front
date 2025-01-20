@@ -5,7 +5,7 @@ import { PessoaFisica } from 'src/app/model/pessoa-fisica';
 import { EnderecoService } from 'src/app/services/endereco.service';
 
 import { LoginService } from 'src/app/services/login.service';
-import { PessoaFisicaService } from 'src/app/services/pessoa-Fisica.service';
+import { PessoaFisicaService } from 'src/app/services/pessoa-fisica.service';
 
 
 @Component({
@@ -161,13 +161,24 @@ export class PessoaFisicaComponent implements OnInit {
   addEndereco(){
     const end = this.enderecoObjeto();
 
+    if (end.id != null && end.id != undefined){
+      for(var i = 0; i< this.enderecos.length; i++){
+          var e = this.enderecos[i];
+          if(e.cep === end.cep && e.id != end.id){
+            return;
+          }
+      }
+   }
+     
     var index = this.enderecos.map(e => e.cep).indexOf(end.cep);
 
-    if(index < 0){
-      this.enderecos.push(end);
+    var indexId = this.enderecos.map(e => e.id).indexOf(end.id);
+
+    if (index < 0 && indexId < 0) {
+     this.enderecos.push(end);
     }else{
-      this.enderecos.splice(index,1);
-      this.enderecos.push(end);
+     this.enderecos.splice(index,1);
+     this.enderecos.push(end);
     }
   }
 
@@ -194,10 +205,8 @@ export class PessoaFisicaComponent implements OnInit {
   }
 
   salvarPf() {
-    const acesso = this.pfObjeto();
-    this.pessoaFisicaService.salvarPf(acesso);
-
-    this.novo();
+    const pf = this.pfObjeto();  
+    this.pessoaFisicaService.salvarPf2(pf, this);  
     this.listaPf(this.paginaAtual);
   }
 

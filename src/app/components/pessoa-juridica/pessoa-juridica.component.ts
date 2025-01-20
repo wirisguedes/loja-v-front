@@ -169,16 +169,27 @@ export class PessoaJuridicaComponent implements OnInit {
   }
 
   addEndereco(){
-    const end = this.enderecoObjeto();
+    const end = this.enderecoObjeto();    
 
-    var index = this.enderecos.map(e => e.cep).indexOf(end.cep);
+     if (end.id != null && end.id != undefined){
+        for(var i = 0; i< this.enderecos.length; i++){
+            var e = this.enderecos[i];
+            if(e.cep === end.cep && e.id != end.id){
+              return;
+            }
+        }
+     }
+      
+     var index = this.enderecos.map(e => e.cep).indexOf(end.cep);
+     var indexId = this.enderecos.map(e => e.id).indexOf(end.id);
+  
 
-    if(index < 0){
+     if (index < 0 && indexId < 0) {
       this.enderecos.push(end);
-    }else{
+     }else{
       this.enderecos.splice(index,1);
       this.enderecos.push(end);
-    }
+     }
   }
 
   excluirEndereco(e: Endereco): void{
@@ -205,10 +216,9 @@ export class PessoaJuridicaComponent implements OnInit {
   }
 
   salvarPj() {
-    const acesso = this.pjObjeto();
-    this.pessoaJuridicaService.salvarPj(acesso);
+    const pj = this.pjObjeto();
+    this.pessoaJuridicaService.salvarPj2(pj, this);
 
-    this.novo();
     this.listaPj(this.paginaAtual);
   }
 
