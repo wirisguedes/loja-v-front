@@ -7,16 +7,45 @@
         <label for="id" class="form-label">ID</label>
         <input type="text" class="form-control" id="id" readonly name="id" placeholder="ID" formControlName="id" (ngModel)="usuarioFormGroup.get('id')">
       </div>
-      <div class="col-5">
-        <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
-        <input type="text" maxlength="100" class="form-control" id="nomeFantasia" name="nomeFantasia"  formControlName="nomeFantasia">
-        <div *ngIf="usuarioFormGroup.get('nomeFantasia')?.errors" style="font-size: 8px;color: brown;">* Acesso</div>
+      <div class="col-10">
+        <label for="pessoa" class="form-label">Pessoa</label>
+        <input type="text" maxlength="100" class="form-control" id="pessoa" name="pessoa" readonly formControlName="pessoa">
+        <div *ngIf="usuarioFormGroup.get('pessoa')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-6">
+        <label for="login" class="form-label">Login</label>
+        <input type="text" maxlength="100" class="form-control" id="login" name="login"  formControlName="login">
+        <div *ngIf="usuarioFormGroup.get('login')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+      <div class="col-6">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" maxlength="100" class="form-control" id="senha" name="senha"  formControlName="senha">
+        <div *ngIf="usuarioFormGroup.get('senha')?.errors" style="font-size: 8px;color: brown;">*</div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Liberado</th>    
+            <th scope="col">Acesso</th>    
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of acesso">
+            <td> <input type="checkbox" checked="{{c.possuiAcesso}}" (change)="adicionarRemoverAcesso(c)"></td>
+            <td>{{c.descricao}}</td>
+        </tbody>
+
+      </table>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" (click)="salvarUser()" [disabled]="!usuarioFormGroup.valid">Salvar</button>
       </div>
 </form>
 <table class="table">
     <thead>
       <tr>        
         <th scope="col">ID</th>               
+        <th scope="col">Login</th>
         <th scope="col">Nome</th>
         <th scope="col">Editar</th>
         <th scope="col">Deletar</th>
@@ -26,8 +55,9 @@
       <tr *ngFor="let c of lista">
         <td>{{c.id}}</td>
         <td>{{c.login}}</td>
-        <td><button type="button" class="btn btn-primary">Editar</button></td>
-        <td><button type="button" class="btn btn-danger">Deletar</button></td>
+        <td>{{c.pessoa?.nome}}</td>
+        <td><button type="button" class="btn btn-primary" (click)="editarUsuario(c.id)">Editar</button></td>
+        <td><button type="button" class="btn btn-danger" (click)="removerUserPessoa(c.id)">Deletar</button></td>
       </tr>
     </tbody>
   </table>

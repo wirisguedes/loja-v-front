@@ -61,6 +61,11 @@ export class AcessoService {
           
     }
 
+    listarAcessoTodos(){
+      return this.http.get<Acesso[]>(this.urlApi + 'listaAcessoPorEmpresa/' + this.loginService.codEmpresa());
+          
+    }
+
     buscarAcessoPorId(id: any){
       return this.http.get<Acesso>(this.urlApi + 'obterAcessoPorId/' + id);
     }

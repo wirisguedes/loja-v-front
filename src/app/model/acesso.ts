@@ -6,4 +6,5 @@ export class Acesso {
     id?: number;
     descricao?: String;
     empresa?: PessoaJuridica;
+    possuiAcesso?: Boolean;
 }
